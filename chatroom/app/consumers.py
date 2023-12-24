@@ -3,30 +3,34 @@ import json
 
 
 class ChatRoomConsumer(AsyncWebsocketConsumer):
-    
     async def connect(self):
-        print("Scope=", self.scope)
+        # print("Scope=", self.scope['url_route'])
         self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = 'chat_%' % self.room_name
+        self.room_group_name = 'chat_%s' % self.room_name
         await self.channel_layer.group_add(
-            self.room_group_name, self.channel_name
+            self.room_group_name, 
+            self.channel_name
         )
+        await self.accept()
+
+    async def receive(self, text_data=None, bytes_data=None):
+        text_data_json = json.loads(text_data)
+        messages = text_data_json['message']
         await self.channel_layer.group_send(
-            self.room_group_name, {'type': 'tester_message', 'tester': 'Hello! Connected...'}
-        )
-        return await super().connect()
-    
-    async def tester_message(self, event):
-        tester = event['tester']
-        await self.send(
-            text_data=json.dumps({'tester': tester})
+            self.room_group_name, 
+            {
+                'type': 'chat_message',
+                'message': messages
+            }
         )
 
-    # async def receive(self, text_data=None, bytes_data=None):
-    #     return await super().receive(text_data, bytes_data)
+    async def chat_message(self, event):
+        message = event['message']
+        await self.send(text_data=json.dumps(
+            {'message': message}
+        ))
 
     async def disconnect(self, code):
         await self.channel_layer.group_discard(
             self.room_group_name, self.room_name
         )
-        return await super().disconnect(code)

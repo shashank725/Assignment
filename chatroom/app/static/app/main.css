@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css?family=Satisfy');
+
+body {
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+#backGroundDiv {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    background-image: linear-gradient(to right bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* z-index: -1; */
+}
+.container-fluid {
+    width: 100%;
+    height: 100%;
+}
+
+
+.register {
+    /* height: 100%; */
+    width: 100%;
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    /* align-items: flex-start; */
+}
+.register-box {
+    border: 5px solid white;
+    padding: 40px;
+    margin-top: 5%;
+    background-color: whitesmoke;
+    opacity: 0.7;
+    /* color: #ffff; */
+}
+.form-class {
+    /* display: flex; */
+    opacity: 1;
+}
+
+
+.card {
+    margin: 2%;
+}
+.card .card-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
