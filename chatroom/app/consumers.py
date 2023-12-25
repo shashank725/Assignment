@@ -1,6 +1,6 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
-
+from app.functionality import analyze_message
 
 class ChatRoomConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -23,12 +23,19 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data=None, bytes_data=None):
         text_data_json = json.loads(text_data)
-        messages = text_data_json['message']
+        message = text_data_json['message']
+        # Added Feature:
+        text = "John likes the blue house at the end of the street."
+        if message == text:
+            message = await analyze_message(message)
+            message['main'] = text
+            print("Found the message !")
+
         await self.channel_layer.group_send(
             self.room_group_name, 
             {
                 'type': 'chat_message',
-                'message': messages,
+                'message': message,
                 # 'username': event['username']
             }
         )

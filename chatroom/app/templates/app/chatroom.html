@@ -52,9 +52,27 @@
 
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
-            console.log(data);
+            console.log(data.message);
+            if (data.message.main == 'John likes the blue house at the end of the street.') {
+                console.log(data.message.main)
+                console.log(data.message.Adjective.length)
+                document.querySelector('#chat-text').value += (
+                    data.message.main+'\n'+
+                    'Adjective: '+data.message.Adjective+' ('+data.message.Adjective.length+')'+'\n'+
+                    'Adverb: '+data.message.Adverb+' ('+data.message.Adverb.length+')'+'\n'+
+                    'Conjunction: '+data.message.Conjunction+' ('+data.message.Conjunction.length+')'+'\n'+
+                    'Determiner: '+data.message.Determiner+' ('+data.message.Determiner.length+')'+'\n'+
+                    'Noun: '+data.message.Noun+' ('+data.message.Noun.length+')'+'\n'+
+                    'Number: '+data.message.Number+' ('+data.message.Number.length+')'+'\n'+
+                    'Preposition: '+data.message.Preposition+' ('+data.message.Preposition.length+')'+'\n'+
+                    'Pronoun: '+data.message.Pronoun+' ('+data.message.Pronoun.length+')'+'\n'+
+                    'Verb: '+data.message.Verb+' ('+data.message.Verb.length+')'+'\n'
+                )
+
+            } else {
+                document.querySelector('#chat-text').value += (data.message + '\n')
+            }
             // document.querySelector('#user-hello').innerHTML = data.tester
-            document.querySelector('#chat-text').value += (data.message + '\n')
         }
     </script>
 {% endblock  %}
