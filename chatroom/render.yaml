@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: chatroom
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "daphne -b 0.0.0.0 -p 10001 chatroom.prod_asgi:application"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: False
+      - key: WEB_CONCURRENCY
+        value: 4
